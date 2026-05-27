@@ -37,13 +37,18 @@ jobs:
           mkdir -p reports
           npm test -- --reporter=default --reporter=junit --outputFile.junit=reports/vitest-junit.xml
 
-      - name: Publish test results
+      - name: Publish Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v6
+        uses: ctrf-io/github-test-reporter@v1
         with:
-          report_paths: reports/vitest-junit.xml
-          check_name: 'Vitest Test Results'
-          fail_on_failure: true
+          report-path: 'reports/vitest-junit.xml'
+          integrations-config: |
+            {
+              "junit-to-ctrf": {
+                "enabled": true,
+                "action": "convert"
+              }
+            }
 
       - name: Upload test report artifact
         if: always()
