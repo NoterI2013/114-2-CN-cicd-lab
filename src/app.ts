@@ -6,7 +6,9 @@ export function buildApp(options: FastifyServerOptions = {}) {
     ...options
   });
 
-  app.get('/', async () => {
+  app.get('/', async (_, reply) => {
+    reply.code(201);
+
     return {
       message: 'CI/CD Lab Fastify app is running',
       version: process.env.APP_VERSION || 'dev',
